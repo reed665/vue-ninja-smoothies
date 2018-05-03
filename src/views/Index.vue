@@ -16,29 +16,27 @@
 
 
 <script>
+import db from '@/firebase'
+
 export default {
   data () {
     return {
-      smoothies: [
-        {
-          id: 1,
-          title: 'Ninja Brew',
-          slug: 'ninja-brew',
-          ingredients: ['bananas', 'coffee', 'milk'],
-        },
-        {
-          id: 2,
-          title: 'Morning Mood',
-          slug: 'morning-mood',
-          ingredients: ['mango', 'lime', 'juice'],
-        },
-      ],
+      smoothies: [],
     }
   },
   methods: {
     deleteSmoothie (id) {
       this.smoothies = this.smoothies.filter(smoothie => smoothie.id !== id)
     }
+  },
+  created () {
+    db.collection('smoothies').get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          const smoothie = { id: doc.id, ...doc.data() }
+          this.smoothies.push(smoothie)
+        })
+      })
   },
 }
 </script>
