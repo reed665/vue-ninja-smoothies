@@ -10,6 +10,12 @@
           </li>
         </ul>
       </div>
+
+      <span class="btn-floating btn-large halfway-fab pink">
+        <router-link :to="{ name: 'editSmoothie', params: { slug: smoothie.slug } }">
+          <i class="material-icons">edit</i>
+        </router-link>
+      </span>
     </div>
   </div>
 </template>
