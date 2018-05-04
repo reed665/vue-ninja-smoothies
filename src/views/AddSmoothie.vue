@@ -15,7 +15,7 @@
       </div>
 
       <div class="field add-ingredient">
-        <label for="add-ingredient">Add an Ingredient</label>
+        <label for="add-ingredient">Add an Ingredient (press tab)</label>
         <input type="text" name="add-ingredient" @keydown.tab.prevent="addIngredient" v-model="another">
       </div>
 
