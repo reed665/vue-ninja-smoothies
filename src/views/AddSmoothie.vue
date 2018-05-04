@@ -28,6 +28,9 @@
 
 
 <script>
+import slugify from 'slugify'
+import db from '@/firebase'
+
 export default {
   data () {
     return {
@@ -35,6 +38,11 @@ export default {
       another: '',
       ingredients: [],
       feedback: '',
+    }
+  },
+  computed: {
+    slug () {
+      return slugify(this.title, { replacement: '-', remove: /[$*_+~.()'"!\-:@]/g, lower: true })
     }
   },
   methods: {
@@ -48,7 +56,21 @@ export default {
       this.another = ''
     },
     addSmoothie () {
-      console.log(this.title, this.ingredients)
+      if (!this.title) {
+        this.feedback = "You must enter a smoothie title"
+        return
+      }
+      this.feedback = ''
+      const doc = {
+        title: this.title,
+        slug: this.slug,
+        ingredients: this.ingredients,
+      }
+      db.collection('smoothies').add(doc)
+        .then(() => {
+          this.$router.push({ name: 'index' })
+        })
+        .catch(console.error)
     }
   }
 }
