@@ -1,5 +1,5 @@
 <template>
-  <div class="index container">
+  <div v-if="smoothies.length" class="index container">
     <div class="card" v-for="smoothie of smoothies" :key="smoothie.id">
       <div class="card-content">
         <i class="material-icons delete-icon" @click="deleteSmoothie(smoothie.id)">delete</i>
@@ -11,20 +11,26 @@
         </ul>
       </div>
 
-      <span class="btn-floating btn-large halfway-fab pink">
-        <router-link :to="{ name: 'editSmoothie', params: { slug: smoothie.slug } }">
+      <router-link :to="{ name: 'editSmoothie', params: { slug: smoothie.slug } }">
+        <span class="btn-floating btn-large halfway-fab pink">
           <i class="material-icons">edit</i>
-        </router-link>
-      </span>
+        </span>
+      </router-link>
     </div>
+  </div>
+
+  <div v-else class="loading container">
+    <preloader></preloader>
   </div>
 </template>
 
 
 <script>
+import Preloader from '@/components/Preloader'
 import db from '@/firebase'
 
 export default {
+  components: { Preloader },
   data () {
     return {
       smoothies: [],
@@ -59,6 +65,7 @@ export default {
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 30px;
     margin-top: 60px;
+    margin-bottom: 60px;
   }
 
   .smoothie-title {
@@ -82,5 +89,10 @@ export default {
     cursor: pointer;
     color: #aaa;
     font-size: 1.4em;
+  }
+
+  .loading {
+    margin-top: 100px;
+    text-align: center;
   }
 </style>
