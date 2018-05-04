@@ -34,6 +34,7 @@
 
 <script>
 import Preloader from '@/components/Preloader.vue'
+import slugify from 'slugify'
 import db from '@/firebase'
 
 export default {
@@ -46,12 +47,12 @@ export default {
     }
   },
   computed: {
-    slug () {
+    routeSlug () {
       return this.$route.params.slug
-    }
+    },
   },
   created () {
-    db.collection('smoothies').where('slug', '==', this.slug).get()
+    db.collection('smoothies').where('slug', '==', this.routeSlug).get()
       .then(snapshot => {
         snapshot.forEach(doc => {
           this.smoothie = { id: doc.id, ...doc.data() }
@@ -61,7 +62,22 @@ export default {
   },
   methods: {
     editSmoothie () {
-      console.log(this.smoothie.title, this.smoothie.ingredients)
+      if (!this.smoothie.title) {
+        this.feedback = "You must enter a smoothie title"
+        return
+      }
+      this.feedback = ''
+      const { title, ingredients } = this.smoothie
+      const doc = {
+        title,
+        slug: this.slug(title),
+        ingredients,
+      }
+      db.collection('smoothies').doc(this.smoothie.id).update(doc)
+        .then(() => {
+          this.$router.push({ name: 'index' })
+        })
+        .catch(console.error)
     },
     addIngredient () {
       if (!this.another) {
@@ -74,7 +90,10 @@ export default {
     },
     deleteIngredient (ingredient) {
       this.smoothie.ingredients = this.smoothie.ingredients.filter(ing => ingredient !== ing)
-    }
+    },
+    slug (title) {
+      return slugify(title, { replacement: '-', remove: /[$*_+~.()'"!\-:@]/g, lower: true })
+    },
   }
 }
 </script>
