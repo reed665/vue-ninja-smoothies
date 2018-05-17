@@ -79,6 +79,7 @@ export default {
 
   .smoothie-title {
     font-size: 1.8em;
+    line-height: 1.35;
     text-align: center;
     margin-top: 0;
     overflow: hidden;
