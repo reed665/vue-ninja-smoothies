@@ -5,18 +5,18 @@
     <form @submit.prevent="addSmoothie">
       <div class="field title">
         <label for="title">Smoothie Title</label>
-        <input type="text" name="title" v-model="title">
+        <input type="text" maxlength="50" name="title" v-model="title">
       </div>
 
       <div class="field" v-for="(ingredient, idx) of ingredients" :key="idx">
         <label for="ingredient">Ingredient</label>
-        <input type="text" name="ingredient" v-model="ingredients[idx]">
+        <input type="text" maxlength="50" name="ingredient" v-model="ingredients[idx]">
         <i class="material-icons ingredient-delete" @click="deleteIngredient(ingredient)">delete</i>
       </div>
 
       <div class="field add-ingredient">
         <label for="add-ingredient">Add an Ingredient (press tab)</label>
-        <input type="text" name="add-ingredient" @keydown.tab.prevent="addIngredient" v-model="another">
+        <input type="text" maxlength="50" name="add-ingredient" @keydown.tab.prevent="addIngredient" v-model="another">
       </div>
 
       <div class="field center-align">
