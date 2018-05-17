@@ -9,8 +9,8 @@
         </h4>
 
         <ul class="ingredient-list">
-          <li class="ingredient" v-for="(ingredient, idx) of smoothie.ingredients" :key="idx">
-            <span class="chip">{{ ingredient }}</span>
+          <li class="chip" v-for="(ingredient, idx) of smoothie.ingredients" :key="idx">
+            <span class="ingredient">{{ ingredient }}</span>
           </li>
         </ul>
       </div>
@@ -64,9 +64,26 @@ export default {
 
 
 <style scoped>
+  @media (min-width: 320px) {
+    .index {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (min-width: 600px) {
+    .index {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .index {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
   .index {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 30px;
     margin-top: 60px;
     margin-bottom: 60px;
@@ -107,4 +124,16 @@ export default {
     margin-top: 100px;
     text-align: center;
   }
+
+  .chip {
+    max-width: 100%;
+  }
+
+  .ingredient {
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
 </style>
