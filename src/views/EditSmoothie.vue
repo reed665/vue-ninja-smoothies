@@ -21,7 +21,7 @@
 
       <div class="field center-align">
         <p v-if="feedback" class="red-text">{{ feedback }}</p>
-        <button class="btn pink">Update Smoothie</button>
+        <button class="btn pink" :disabled="saving">Update Smoothie</button>
       </div>
     </form>
   </div>
@@ -44,6 +44,7 @@ export default {
       smoothie: null,
       another: '',
       feedback: '',
+      saving: false,
     }
   },
   computed: {
@@ -73,11 +74,16 @@ export default {
         slug: this.slug(title),
         ingredients,
       }
+      this.saving = true
       db.collection('smoothies').doc(this.smoothie.id).update(doc)
         .then(() => {
+          this.saving = false
           this.$router.push({ name: 'index' })
         })
-        .catch(console.error)
+        .catch(err => {
+          this.saving = false
+          console.error(err)
+        })
     },
     addIngredient () {
       if (!this.another) {
