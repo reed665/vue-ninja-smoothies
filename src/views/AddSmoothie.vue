@@ -65,6 +65,10 @@ export default {
         this.feedback = "You must enter a smoothie title"
         return
       }
+      if (!this.ingredients || !this.ingredients.length) {
+        this.feedback = 'A smoothie should contain at least one ingredient'
+        return
+      }
       this.feedback = ''
       const doc = {
         title: this.title,

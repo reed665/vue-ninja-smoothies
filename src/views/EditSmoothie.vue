@@ -66,7 +66,11 @@ export default {
   methods: {
     editSmoothie () {
       if (!this.smoothie.title) {
-        this.feedback = "You must enter a smoothie title"
+        this.feedback = 'You must enter a smoothie title'
+        return
+      }
+      if (!this.smoothie.ingredients || !this.smoothie.ingredients.length) {
+        this.feedback = 'A smoothie should contain at least one ingredient'
         return
       }
       this.feedback = ''
