@@ -1,6 +1,8 @@
 <template>
   <div v-if="smoothie" class="edit-smoothie container">
-    <h2 class="center-align indigo-text">Edit {{ smoothie.title }}</h2>
+    <h2 class="center-align indigo-text" :title="smoothie.title">
+      Edit {{ smoothie.title }}
+    </h2>
 
     <form @submit.prevent="editSmoothie">
       <div class="field title">
@@ -114,6 +116,9 @@ export default {
   h2 {
     font-size: 2em;
     margin: 20px auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .field {
     margin: 20px auto;
